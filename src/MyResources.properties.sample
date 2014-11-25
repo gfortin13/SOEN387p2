@@ -1,0 +1,5 @@
+mySqlHostName=localhost:3306
+mySqlUserName=dbusername
+mySqlPassword=dbpassword
+mySqlDatabase=dbname?characterEncoding=utf8
+mySqlTablePrefix=
