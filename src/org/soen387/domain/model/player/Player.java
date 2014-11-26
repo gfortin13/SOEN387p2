@@ -1,24 +1,13 @@
 package org.soen387.domain.model.player;
 
+import org.dsrg.soenea.domain.DomainObject;
 import org.soen387.domain.model.user.IUser;
 
-public class Player implements IPlayer {
-	long id;
-	int version;
+public class Player extends DomainObject<Long> implements IPlayer {
 	String firstName;
 	String lastName;
 	String email;
 	IUser user;
-
-	@Override
-	public int getVersion() {
-		return version;
-	}
-
-	@Override
-	public void setVersion(int version) {
-		this.version = version;
-	}
 
 	@Override
 	public String getFirstName() {
@@ -60,16 +49,9 @@ public class Player implements IPlayer {
 		this.user = user;
 	}
 
-	@Override
-	public long getId() {
-		return id;
-	}
-
-	public Player(long id, int version, String firstName, String lastName,
+	public Player(long id, long version, String firstName, String lastName,
 			String email, IUser user) {
-		super();
-		this.id = id;
-		this.version = version;
+		super(id, version);
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -78,7 +60,7 @@ public class Player implements IPlayer {
 
 	@Override
 	public boolean equals(Object p) {
-		return p instanceof IPlayer && this.id==((IPlayer)(p)).getId();
+		return p instanceof IPlayer && getId()==((IPlayer)(p)).getId();
 	}
 
 }

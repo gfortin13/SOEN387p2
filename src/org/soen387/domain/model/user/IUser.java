@@ -1,10 +1,8 @@
 package org.soen387.domain.model.user;
 
-public interface IUser {
+import org.dsrg.soenea.domain.interf.IDomainObject;
 
-	public abstract int getVersion();
-
-	public abstract void setVersion(int version);
+public interface IUser extends IDomainObject<Long>{
 
 	public abstract String getUsername();
 
@@ -14,6 +12,5 @@ public interface IUser {
 
 	public abstract void setPassword(String password);
 
-	public abstract long getId();
 
 }

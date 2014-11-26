@@ -1,104 +1,95 @@
 package org.soen387.domain.model.checkerboard;
 
 import java.awt.Point;
+import java.sql.SQLException;
 
+import org.dsrg.soenea.domain.DomainObjectCreationException;
+import org.dsrg.soenea.domain.MapperException;
+import org.dsrg.soenea.domain.proxy.DomainObjectProxy;
 import org.soen387.domain.model.checkerboard.mapper.CheckerBoardMapper;
 import org.soen387.domain.model.player.IPlayer;
+import org.soen387.domain.model.player.Player;
+import org.soen387.domain.model.player.mapper.PlayerMapper;
 
 
-public class CheckerBoardProxy implements ICheckerBoard {
-	long id;
+public class CheckerBoardProxy extends DomainObjectProxy<Long, CheckerBoard>implements ICheckerBoard {
 	
 	public CheckerBoardProxy(long id) {
-		super();
-		this.id = id;
-	}
-
-	public CheckerBoard getInner() {
-		try {
-			return CheckerBoardMapper.find(id);
-		} catch (Exception e) {
-			// It better be here! That null won't go over well!
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	
-	@Override
-	public int getVersion() {
-		return getInner().getVersion();
-	}
-
-	@Override
-	public void setVersion(int version) {
-		getInner().setVersion(version);
-	}
-
-
-	@Override
-	public long getId() {
-		return id;
+		super(id);
 	}
 
 	@Override
 	public GameStatus getStatus() {
-		return getInner().getStatus();
+		return getInnerObject().getStatus();
 	}
 
 	@Override
 	public void setStatus(GameStatus status) {
-		getInner().setStatus(status);
+		getInnerObject().setStatus(status);
 	}
 
 	@Override
 	public String getPieces() {
-		return getInner().getPieces();
+		return getInnerObject().getPieces();
 	}
 
 	@Override
 	public void setPieces(String pieces) {
-		getInner().setPieces(pieces);
+		getInnerObject().setPieces(pieces);
 	}
 
 	@Override
 	public IPlayer getFirstPlayer() {
-		return getInner().getFirstPlayer();
+		return getInnerObject().getFirstPlayer();
 	}
 
 	@Override
 	public void setFirstPlayer(IPlayer firstPlayer) {
-		getInner().setFirstPlayer(firstPlayer);
+		getInnerObject().setFirstPlayer(firstPlayer);
 	}
 
 	@Override
 	public IPlayer getSecondPlayer() {
-		return getInner().getSecondPlayer();
+		return getInnerObject().getSecondPlayer();
 	}
 
 	@Override
 	public void setSecondPlayer(IPlayer secondPlayer) {
-		getInner().setSecondPlayer(secondPlayer);
+		getInnerObject().setSecondPlayer(secondPlayer);
 	}
 
 	@Override
 	public IPlayer getCurrentPlayer() {
-		return getInner().getCurrentPlayer();
+		return getInnerObject().getCurrentPlayer();
 	}
 
 	@Override
 	public void setCurrentPlayer(IPlayer currentPlayer) {
-		getInner().setCurrentPlayer(currentPlayer);
+		getInnerObject().setCurrentPlayer(currentPlayer);
 	}
 
 	@Override
 	public void move(Point source, Point target) {
-		getInner().move(source, target);
+		getInnerObject().move(source, target);
 	}
 
 	@Override
 	public void jump(Point source, Point... targets) {
-		getInner().jump(source, targets);
+		getInnerObject().jump(source, targets);
+	}
+
+	// FIXME: try to have method not need try/catch and throw either Mapper/DomainObjectCreation Exception instead of SQL
+	@Override
+	protected CheckerBoard getFromMapper(Long id) throws MapperException,
+			DomainObjectCreationException {
+		CheckerBoard c = null;
+		try {
+			c = CheckerBoardMapper.find(id);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return c;
 	}
 
 }

@@ -11,11 +11,11 @@ import org.dsrg.soenea.service.threadLocal.DbRegistry;
 public class UserTDG {
 	public static final String TABLE_NAME = "User";
 	public static final String COLUMNS = "id, version, username, password ";
-	public static final String TRUNCATE_TABLE = "TRUNCATE TABLE  " + TABLE_NAME + ";";
-	public static final String DROP_TABLE = "DROP TABLE  " + TABLE_NAME + ";";
+	public static final String TRUNCATE_TABLE = "TRUNCATE TABLE " + TABLE_NAME + ";";
+	public static final String DROP_TABLE = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
 	public static final String CREATE_TABLE ="CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " (" 
 			+ "id BIGINT, "
-			+ "version int, "
+			+ "version BIGINT, "
 			+ "username VARCHAR(32), "
 			+ "password VARCHAR(64), "
 			+ "PRIMARY KEY(id), "
@@ -41,11 +41,11 @@ public class UserTDG {
 	
 	public static final String INSERT = "INSERT INTO " + TABLE_NAME + " (" + COLUMNS + ") "
 			+ "VALUES (?,?,?,PASSWORD(?));";
-	public static int insert(long id, int version, String usernmae, String password) throws SQLException {
+	public static int insert(long id, long version, String usernmae, String password) throws SQLException {
 		Connection con = DbRegistry.getDbConnection();
 		PreparedStatement ps = con.prepareStatement(INSERT);
 		ps.setLong(1,id);
-		ps.setInt(2,version);
+		ps.setLong(2,version);
 		ps.setString(3,usernmae);
 		ps.setString(4,password);
 		System.out.println(ps.toString());
@@ -54,23 +54,23 @@ public class UserTDG {
 	
 	public static final String UPDATE = "UPDATE " + TABLE_NAME + " set version = version+1, username=?, password=password(?) "
 			+ " WHERE id=? AND version=?;";
-	public static int update(long id, int version, String usernmae, String password) throws SQLException {
+	public static int update(long id, long version, String usernmae, String password) throws SQLException {
 		Connection con = DbRegistry.getDbConnection();
 		PreparedStatement ps = con.prepareStatement(UPDATE);
 		ps.setString(1,usernmae);
 		ps.setString(2,password);
 		ps.setLong(3,id);
-		ps.setInt(4,version);
+		ps.setLong(4,version);
 		return ps.executeUpdate();
 	}
 	
 	public static final String DELETE = "DELETE FROM " + TABLE_NAME + " "
 			+ "WHERE id=? AND version=?;";
-	public static int delete(long id, int version) throws SQLException {
+	public static int delete(long id, long version) throws SQLException {
 		Connection con = DbRegistry.getDbConnection();
 		PreparedStatement ps = con.prepareStatement(DELETE);
 		ps.setLong(1,id);
-		ps.setInt(2,version);
+		ps.setLong(2,version);
 		return ps.executeUpdate();
 	}
 	

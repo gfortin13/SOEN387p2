@@ -1,24 +1,13 @@
 package org.soen387.domain.model.challenge;
 
+import org.dsrg.soenea.domain.DomainObject;
 import org.soen387.domain.model.player.IPlayer;
 
-public class Challenge implements IChallenge {
-	long id;
-	int version;
+public class Challenge extends DomainObject<Long> implements IChallenge {
 	IPlayer challenger;
 	IPlayer challengee;
 	ChallengeStatus status;
 
-	@Override
-	public int getVersion() {
-		return version;
-	}
-
-	@Override
-	public void setVersion(int version) {
-		this.version = version;
-	}
-	
 	@Override
 	public IPlayer getChallenger() {
 		return challenger;
@@ -50,15 +39,9 @@ public class Challenge implements IChallenge {
 		this.status = status;
 	}
 
-	@Override
-	public long getId() {
-		return id;
-	}
-	public Challenge(long id, int version, IPlayer challenger,
+	public Challenge(long id, long version, IPlayer challenger,
 			IPlayer challengee, ChallengeStatus status) {
-		super();
-		this.id = id;
-		this.version = version;
+		super(id, version);
 		this.challenger = challenger;
 		this.challengee = challengee;
 		this.status = status;

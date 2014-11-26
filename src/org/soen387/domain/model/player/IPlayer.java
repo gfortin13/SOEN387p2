@@ -1,12 +1,9 @@
 package org.soen387.domain.model.player;
 
+import org.dsrg.soenea.domain.interf.IDomainObject;
 import org.soen387.domain.model.user.IUser;
 
-public interface IPlayer {
-
-	public abstract int getVersion();
-
-	public abstract void setVersion(int version);
+public interface IPlayer extends IDomainObject<Long> {
 
 	public abstract String getFirstName();
 
@@ -23,7 +20,5 @@ public interface IPlayer {
 	public abstract IUser getUser();
 
 	public abstract void setUser(IUser user);
-
-	public abstract long getId();
 
 }

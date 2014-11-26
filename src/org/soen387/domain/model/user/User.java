@@ -1,25 +1,12 @@
 package org.soen387.domain.model.user;
 
-public class User implements IUser {
+import org.dsrg.soenea.domain.DomainObject;
 
-	long id;
-	int version;
+public class User extends DomainObject<Long> implements IUser {
+
 	String username;
 	String password;
-	/* (non-Javadoc)
-	 * @see org.soen387.domain.model.user.IUser#getVersion()
-	 */
-	@Override
-	public int getVersion() {
-		return version;
-	}
-	/* (non-Javadoc)
-	 * @see org.soen387.domain.model.user.IUser#setVersion(int)
-	 */
-	@Override
-	public void setVersion(int version) {
-		this.version = version;
-	}
+
 	/* (non-Javadoc)
 	 * @see org.soen387.domain.model.user.IUser#getUsername()
 	 */
@@ -48,17 +35,9 @@ public class User implements IUser {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	/* (non-Javadoc)
-	 * @see org.soen387.domain.model.user.IUser#getId()
-	 */
-	@Override
-	public long getId() {
-		return id;
-	}
-	public User(long id, int version, String username, String password) {
-		super();
-		this.id = id;
-		this.version = version;
+
+	public User(long id, long version, String username, String password) {
+		super(id, version);
 		this.username = username;
 		this.password = password;
 	}

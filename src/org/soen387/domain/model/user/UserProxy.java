@@ -1,58 +1,52 @@
 package org.soen387.domain.model.user;
 
+import java.sql.SQLException;
+
+import org.dsrg.soenea.domain.DomainObjectCreationException;
+import org.dsrg.soenea.domain.MapperException;
+import org.dsrg.soenea.domain.proxy.DomainObjectProxy;
 import org.soen387.domain.model.user.mapper.UserMapper;
 
-public class UserProxy implements IUser {
-	long id;
+public class UserProxy extends DomainObjectProxy<Long, User> implements IUser {
 	
 	public UserProxy(long id) {
-		super();
-		this.id = id;
+		super(id);
 	}
 
-	public User getInner() {
-		try {
-			return UserMapper.find(id);
-		} catch (Exception e) {
-			// It better be here! That null won't go over well!
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	@Override
-	public int getVersion() {
-		return getInner().getVersion();
-	}
-
-	@Override
-	public void setVersion(int version) {
-		getInner().setVersion(version);
-	}
 
 	@Override
 	public String getUsername() {
-		return getInner().getUsername();
+		return getInnerObject().getUsername();
 	}
 
 	@Override
 	public void setUsername(String username) {
-		getInner().setUsername(username);
+		getInnerObject().setUsername(username);
 	}
 
 	@Override
 	public String getPassword() {
-		return getInner().getPassword();
+		return getInnerObject().getPassword();
 	}
 
 	@Override
 	public void setPassword(String password) {
-		getInner().setPassword(password);
+		getInnerObject().setPassword(password);
 	}
 
+
+	// FIXME: try to have method not need try/catch and throw either Mapper/DomainObjectCreation Exception instead of SQL
 	@Override
-	public long getId() {
-		return id;
+	protected User getFromMapper(Long id) throws MapperException,
+			DomainObjectCreationException {
+		User u = null;
+		try {
+			u = UserMapper.find(id);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return u;
 	}
 
 }

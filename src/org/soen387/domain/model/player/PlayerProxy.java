@@ -1,85 +1,76 @@
 package org.soen387.domain.model.player;
 
+import java.sql.SQLException;
+
+import org.dsrg.soenea.domain.DomainObjectCreationException;
+import org.dsrg.soenea.domain.MapperException;
+import org.dsrg.soenea.domain.proxy.DomainObjectProxy;
 import org.soen387.domain.model.player.mapper.PlayerMapper;
 import org.soen387.domain.model.user.IUser;
 
-public class PlayerProxy implements IPlayer {
-	long id;
+public class PlayerProxy extends DomainObjectProxy<Long, Player> implements IPlayer {
 	
 	public PlayerProxy(long id) {
-		super();
-		this.id = id;
-	}
-
-	public Player getInner() {
-		try {
-			return PlayerMapper.find(id);
-		} catch (Exception e) {
-			// It better be here! That null won't go over well!
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	
-	@Override
-	public int getVersion() {
-		return getInner().getVersion();
-	}
-
-	@Override
-	public void setVersion(int version) {
-		getInner().setVersion(version);
+		super(id);
 	}
 
 	@Override
 	public String getFirstName() {
-		return getInner().getFirstName();
+		return getInnerObject().getFirstName();
 	}
 
 	@Override
 	public void setFirstName(String firstName) {
-		getInner().setFirstName(firstName);
+		getInnerObject().setFirstName(firstName);
 	}
 
 	@Override
 	public String getLastName() {
-		return getInner().getLastName();
+		return getInnerObject().getLastName();
 	}
 
 	@Override
 	public void setLastName(String lastName) {
-		getInner().setLastName(lastName);
+		getInnerObject().setLastName(lastName);
 	}
 
 	@Override
 	public String getEmail() {
-		return getInner().getEmail();
+		return getInnerObject().getEmail();
 	}
 
 	@Override
 	public void setEmail(String email) {
-		getInner().setEmail(email);
+		getInnerObject().setEmail(email);
 	}
 
 	@Override
 	public IUser getUser() {
-		return getInner().getUser();
+		return getInnerObject().getUser();
 	}
 
 	@Override
 	public void setUser(IUser user) {
-		getInner().setUser(user);
-	}
-
-	@Override
-	public long getId() {
-		return id;
+		getInnerObject().setUser(user);
 	}
 
 	@Override
 	public boolean equals(Object p) {
-		return p instanceof IPlayer && this.id==((IPlayer)(p)).getId();
+		return p instanceof IPlayer && getId()==((IPlayer)(p)).getId();
+	}
+
+	// FIXME: try to have method not need try/catch and throw either Mapper/DomainObjectCreation Exception instead of SQL
+	@Override
+	protected Player getFromMapper(Long id) throws MapperException,
+			DomainObjectCreationException {
+		Player p = null;
+		try {
+			p = PlayerMapper.find(id);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return p;
 	}
 	
 }

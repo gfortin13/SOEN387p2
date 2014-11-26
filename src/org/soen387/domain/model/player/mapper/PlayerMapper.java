@@ -97,7 +97,7 @@ public class PlayerMapper {
 	private static Player buildPlayer(ResultSet rs) throws SQLException  {
 		// TODO Auto-generated method stub
 		return new Player(rs.getLong("id"),
-				rs.getInt("version"),
+				rs.getLong("version"),
 				rs.getString("firstname"),
 				rs.getString("lastname"),
 				rs.getString("email"),

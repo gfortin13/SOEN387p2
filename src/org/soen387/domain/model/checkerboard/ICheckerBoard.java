@@ -2,13 +2,10 @@ package org.soen387.domain.model.checkerboard;
 
 import java.awt.Point;
 
+import org.dsrg.soenea.domain.interf.IDomainObject;
 import org.soen387.domain.model.player.IPlayer;
 
-public interface ICheckerBoard {
-
-	public abstract int getVersion();
-
-	public abstract void setVersion(int version);
+public interface ICheckerBoard extends IDomainObject<Long>{
 
 	public abstract GameStatus getStatus();
 
@@ -29,8 +26,6 @@ public interface ICheckerBoard {
 	public abstract IPlayer getCurrentPlayer();
 
 	public abstract void setCurrentPlayer(IPlayer currentPlayer);
-
-	public abstract long getId();
 
 	public abstract void move(Point source, Point target);
 

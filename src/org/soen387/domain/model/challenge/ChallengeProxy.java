@@ -1,72 +1,63 @@
 package org.soen387.domain.model.challenge;
 
+import java.sql.SQLException;
+
+import org.dsrg.soenea.domain.DomainObjectCreationException;
+import org.dsrg.soenea.domain.MapperException;
+import org.dsrg.soenea.domain.proxy.DomainObjectProxy;
 import org.soen387.domain.model.challenge.mapper.ChallengeMapper;
 import org.soen387.domain.model.player.IPlayer;
 
-public class ChallengeProxy implements IChallenge{
-	long id;
+public class ChallengeProxy extends DomainObjectProxy<Long, Challenge> implements IChallenge{
 	
 	public ChallengeProxy(long id) {
-		super();
-		this.id = id;
-	}
-
-	public Challenge getInner() {
-		try {
-			return ChallengeMapper.find(id);
-		} catch (Exception e) {
-			// It better be here! That null won't go over well!
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	@Override
-	public int getVersion() {
-		return getInner().getVersion();
-	}
-
-	@Override
-	public void setVersion(int version) {
-		getInner().setVersion(version);
-	}
-
-
-	@Override
-	public long getId() {
-		return id;
+		super(id);
 	}
 
 	@Override
 	public IPlayer getChallenger() {
-		return getInner().getChallenger();
+		return getInnerObject().getChallenger();
 	}
 
 	@Override
 	public void setChallenger(IPlayer challenger) {
-		getInner().setChallenger(challenger);
+		getInnerObject().setChallenger(challenger);
 		
 	}
 
 	@Override
 	public IPlayer getChallengee() {
-		return getInner().getChallengee();
+		return getInnerObject().getChallengee();
 	}
 
 	@Override
 	public void setChallengee(IPlayer challengee) {
-		getInner().setChallengee(challengee);
+		getInnerObject().setChallengee(challengee);
 		
 	}
 
 	@Override
 	public ChallengeStatus getStatus() {
-		return getInner().getStatus();
+		return getInnerObject().getStatus();
 	}
 
 	@Override
 	public void setStatus(ChallengeStatus status) {
-		getInner().setStatus(status);
+		getInnerObject().setStatus(status);
+	}
+
+	// FIXME: try to have method not need try/catch and throw either Mapper/DomainObjectCreation Exception instead of SQL
+	@Override
+	protected Challenge getFromMapper(Long id) throws MapperException,
+			DomainObjectCreationException {
+		Challenge c = null;
+		try {
+			c = ChallengeMapper.find(id);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return c;
 	}
 
 }

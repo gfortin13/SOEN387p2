@@ -1,12 +1,9 @@
 package org.soen387.domain.model.challenge;
 
+import org.dsrg.soenea.domain.interf.IDomainObject;
 import org.soen387.domain.model.player.IPlayer;
 
-public interface IChallenge {
-
-	public abstract int getVersion();
-
-	public abstract void setVersion(int version);
+public interface IChallenge extends IDomainObject<Long> {
 
 	public abstract IPlayer getChallenger();
 
@@ -20,6 +17,5 @@ public interface IChallenge {
 
 	public abstract void setStatus(ChallengeStatus status);
 
-	public abstract long getId();
 
 }

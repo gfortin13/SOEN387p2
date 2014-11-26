@@ -13,6 +13,12 @@ public class Setup {
 	public static void main(String[] args) throws InterruptedException {
 		AbstractPageController.setupDb();
 		try {
+			//Uncomment to wipe and recreate tables
+			/*CheckerBoardTDG.dropTable();
+			PlayerTDG.dropTable();
+			ChallengeTDG.dropTable();
+			UserTDG.dropTable();
+			*/
 			CheckerBoardTDG.createTable();
 			PlayerTDG.createTable();
 			ChallengeTDG.createTable();

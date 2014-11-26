@@ -2,17 +2,16 @@ package org.soen387.domain.model.checkerboard;
 
 import java.awt.Point;
 
+import org.dsrg.soenea.domain.DomainObject;
 import org.soen387.domain.model.player.IPlayer;
 
-public class CheckerBoard implements ICheckerBoard {
+public class CheckerBoard extends DomainObject<Long> implements ICheckerBoard {
 	public static final String initialState = "b b b b  b b b bb b b b                  r r r rr r r r  r r r r";  
 	
-	public CheckerBoard(long id, int version, GameStatus status, IPlayer firstPlayer, IPlayer secondPlayer,
+	public CheckerBoard(long id, long version, GameStatus status, IPlayer firstPlayer, IPlayer secondPlayer,
 			IPlayer currentPlayer) {
-		super();
+		super(id, version);
 
-		this.id = id;
-		this.version = version;
 		this.status = status;
 		this.pieces = initialState;
 		this.firstPlayer = firstPlayer;
@@ -20,27 +19,15 @@ public class CheckerBoard implements ICheckerBoard {
 		this.currentPlayer = currentPlayer;
 	}
 	
-	public CheckerBoard(long id, int version, GameStatus status,
+	public CheckerBoard(long id, long version, GameStatus status,
 			String pieces, IPlayer firstPlayer, IPlayer secondPlayer,
 			IPlayer currentPlayer) {
-		super();
-		this.id = id;
-		this.version = version;
+		super(id, version);
 		this.status = status;
 		this.pieces = pieces;
 		this.firstPlayer = firstPlayer;
 		this.secondPlayer = secondPlayer;
 		this.currentPlayer = currentPlayer;
-	}
-
-	@Override
-	public int getVersion() {
-		return version;
-	}
-
-	@Override
-	public void setVersion(int version) {
-		this.version = version;
 	}
 
 	@Override
@@ -93,19 +80,11 @@ public class CheckerBoard implements ICheckerBoard {
 		this.currentPlayer = currentPlayer;
 	}
 
-	@Override
-	public long getId() {
-		return id;
-	}
-
-	long id;
-	int version;
 	GameStatus status;
 	String pieces;
 	IPlayer firstPlayer;
 	IPlayer secondPlayer;
 	IPlayer currentPlayer;
-
 
 	@Override
 	public void move(Point source, Point target) {
